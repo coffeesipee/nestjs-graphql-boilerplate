@@ -1,0 +1,44 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Application {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  code: String
+  name: String!
+  description: String
+  is_active: Boolean
+  logo: String
+  url: String
+  api_key: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ListApplication {
+  total: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+  data: [Application!]!
+}
+
+type Query {
+  findAll(page: Int = 1, limit: Int = 10, orderBy: String = "id", order: String = "ASC", searchBy: String = "id", search: String = ""): ListApplication!
+  findOne(id: String!): Application!
+  hello: String!
+}
+
+type Mutation {
+  createApplication(code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, api_key: String): Application!
+  deleteApplication(id: String!): Boolean!
+  updateApplication(id: String!, code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, api_key: String): Boolean!
+}
