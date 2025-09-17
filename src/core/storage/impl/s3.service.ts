@@ -23,6 +23,7 @@ export class S3Service implements IStorageImpl {
                 accessKeyId: this.config.s3.accessKeyId,
                 secretAccessKey: this.config.s3.secretAccessKey,
             },
+            forcePathStyle: this.config.s3.forcePathStyle,
             endpoint: this.config.s3.endpoint,
         })
     }

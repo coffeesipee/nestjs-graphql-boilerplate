@@ -1,5 +1,7 @@
+import { StorageType } from "../constants"
+
 export interface IStorageConfig {
-    type: 's3' | 'local'
+    type: StorageType
     s3?: {
         accessKeyId: string
         secretAccessKey: string
@@ -7,6 +9,7 @@ export interface IStorageConfig {
         bucket: string
         endpoint: string
         expiresIn: number
+        forcePathStyle?: boolean
     },
     local?: {
         path: string

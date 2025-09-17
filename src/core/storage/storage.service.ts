@@ -2,7 +2,7 @@ import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { IStorageConfig } from "./contracts/storage-config.contract";
 import { IStorageImpl } from "./contracts/impl.contract";
 import { S3Service } from "./impl/s3.service";
-import { STORAGE_CONFIG } from "./constants";
+import { STORAGE_CONFIG, StorageType } from "./constants";
 
 @Injectable()
 export class StorageService implements OnModuleInit {
@@ -13,7 +13,7 @@ export class StorageService implements OnModuleInit {
     private impl: IStorageImpl
     initImpl() {
         const handler = {
-            s3: (() => {
+            [StorageType.S3]: (() => {
                 if (!this.config.s3) {
                     throw new Error('S3 config is missing')
                 }
