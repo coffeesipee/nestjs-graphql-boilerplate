@@ -17,6 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         synchronize: configService.get<boolean>('DB_SYNC'),
         logging: ['query'],
         autoLoadEntities: true,
+        poolSize: configService.get<number>('DB_POOL_SIZE') ?? 15,
         cache: {
           type: 'ioredis',
           alwaysEnabled: false,
