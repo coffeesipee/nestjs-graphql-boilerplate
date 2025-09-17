@@ -2,6 +2,33 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  email: String!
+  password: String
+  fullname: String!
+  verifiedAt: DateTime
+  isActive: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ListUser {
+  total: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+  data: [User!]!
+}
+
 type Application {
   id: ID!
   createdAt: DateTime!
@@ -16,11 +43,6 @@ type Application {
   api_key: String
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type ListApplication {
   total: Int!
   hasNextPage: Boolean!
@@ -31,14 +53,52 @@ type ListApplication {
   data: [Application!]!
 }
 
+type Role {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  name: String!
+  code: String
+  isActive: Boolean!
+}
+
+type ListRole {
+  total: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+  data: [Role!]!
+}
+
 type Query {
-  findAll(page: Int = 1, limit: Int = 10, orderBy: String = "id", order: String = "ASC", searchBy: String = "id", search: String = ""): ListApplication!
-  findOne(id: String!): Application!
-  hello: String!
+  findAllApplications(page: Int = 1, limit: Int = 10, orderBy: String = "id", order: String = "ASC", searchBy: String = "id", search: String = ""): ListApplication!
+  findApplicationById(id: String!): Application!
+  findUserById(id: String!): User!
+  findAllUsers(page: Int = 1, limit: Int = 10, orderBy: String = "id", order: String = "ASC", searchBy: String = "id", search: String = ""): ListUser!
+  findAllRoles(page: Int = 1, limit: Int = 10, orderBy: String = "id", order: String = "ASC", searchBy: String = "id", search: String = ""): ListRole!
 }
 
 type Mutation {
   createApplication(code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, api_key: String): Application!
   deleteApplication(id: String!): Boolean!
   updateApplication(id: String!, code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, api_key: String): Boolean!
+  createUser(payload: CreateUserDto!): User!
+  createRole(role: CreateRoleDto!): Role!
+}
+
+input CreateUserDto {
+  email: String!
+  password: String
+  fullname: String!
+  isActive: Boolean = true
+  autoVerified: Boolean = false
+  roleId: String!
+}
+
+input CreateRoleDto {
+  name: String!
+  isActive: Boolean = true
 }
