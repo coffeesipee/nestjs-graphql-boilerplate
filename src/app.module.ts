@@ -8,12 +8,20 @@ import { ApplicationModule } from './app/application/application.module';
 import { PostgreSQLDBModule } from './database/postgresql.module';
 import { FileModule } from './app/file/file.module';
 import { RoleModule } from './app/role/role.module';
+import databaseConfig from './database/config/database.config';
+import redisConfig from './database/config/redis.config';
+import storageConfig from './storage/config/storage.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
+      load: [
+        databaseConfig,
+        redisConfig,
+        storageConfig
+      ]
     }),
     PostgreSQLDBModule,
 
@@ -30,4 +38,4 @@ import { RoleModule } from './app/role/role.module';
     }),
   ],
 })
-export class AppModule {}
+export class AppModule { }

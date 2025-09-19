@@ -1,24 +1,24 @@
 import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { StorageModule } from "../../core/storage/storage.module";
+import { StorageModule } from "../../storage/storage.module";
 import { FileService } from "./services/file.service";
 import { FileController } from "./controllers/file.controller";
-import { StorageType } from "src/core/storage/constants";
+import { StorageType } from "src/storage/constants";
 
 @Module({
     imports: [
         StorageModule.forRootAsync({
             inject: [ConfigService],
             useFactory: (configService: ConfigService) => ({
-                type: StorageType.S3,
+                type: configService.get('storage.type') as StorageType,
                 s3: {
-                    region: configService.get<string>('S3_REGION'),
-                    accessKeyId: configService.get<string>('S3_ACCESS_KEY'),
-                    secretAccessKey: configService.get<string>('S3_SECRET_ACCESS_KEY'),
-                    endpoint: configService.get<string>('S3_ENDPOINT'),
-                    bucket: configService.get<string>('S3_BUCKET'),
-                    expiresIn: configService.get<number>('S3_EXPIRES_IN'),
-                    forcePathStyle: true
+                    region: configService.get<string>('storage.s3.region'),
+                    accessKeyId: configService.get<string>('storage.s3.accessKeyId'),
+                    secretAccessKey: configService.get<string>('storage.s3.secretAccessKey'),
+                    endpoint: configService.get<string>('storage.s3.endpoint'),
+                    bucket: configService.get<string>('storage.s3.bucket'),
+                    expiresIn: configService.get<number>('storage.s3.expiresIn'),
+                    forcePathStyle: configService.get<boolean>('storage.s3.forcePathStyle')
                 }
             })
         })
