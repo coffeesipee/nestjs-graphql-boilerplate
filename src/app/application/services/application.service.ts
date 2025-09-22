@@ -38,7 +38,7 @@ export class ApplicationService {
 
     async create(data: Application): Promise<Application> {
         const application = this.applicationRepository.create(data)
-        application.api_key = await this.apiKeyService.generateApiKey()
+        application.apiKey = await this.apiKeyService.generateApiKey()
         application.code = toSlug(data.name)
 
         return this.applicationRepository.save(application)

@@ -1,7 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from '../entities/user.entity'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import {
   PaginationParams,
   PaginationResponse,
@@ -12,12 +12,19 @@ import { randomString } from 'src/core/utils/strings'
 import { genSaltSync, hashSync } from 'bcrypt'
 import { isEmpty } from 'class-validator'
 import { ListUser } from '../dtos/list-user.dto'
+import { InjectQueue } from '@nestjs/bullmq'
+import { UserConstant } from '../user.constant'
+import { Queue } from 'bullmq'
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) {}
+    @InjectQueue(UserConstant.WELCOME_PASSWORD_JOB)
+    private readonly welcomePasswordQueue: Queue<User>,
+    @InjectQueue(UserConstant.EMAIL_VERIFICATION_JOB)
+    private readonly emailVerificationQueue: Queue<User>,
+  ) { }
 
   async register(user: CreateUserDto) {
     const userExists = await this.findOneByEmail(user.email)
@@ -27,6 +34,8 @@ export class UserService {
     }
 
     const payload = this.userRepository.create(user)
+    console.log(payload)
+
     if (user.autoVerified) {
       payload.verifiedAt = new Date()
     }
@@ -44,6 +53,14 @@ export class UserService {
         ...created,
         password: userPassword,
       }
+    }
+
+    if (!user.autoVerified) {
+      this.emailVerificationQueue.add(UserConstant.EMAIL_VERIFICATION_JOB, created)
+    }
+
+    if (!user.password) {
+      this.welcomePasswordQueue.add(UserConstant.WELCOME_PASSWORD_JOB, created)
     }
 
     delete created.password

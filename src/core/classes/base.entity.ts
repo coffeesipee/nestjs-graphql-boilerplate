@@ -5,23 +5,23 @@ import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateC
 export class ABaseEntity {
     @PrimaryGeneratedColumn('uuid')
     @Field(() => ID)
-    id: string;
+    id?: string;
 
     @CreateDateColumn({
         name: 'created_at'
     })
     @Field(() => Date)
-    createdAt: Date;
+    createdAt?: Date;
 
     @UpdateDateColumn({
         name: 'updated_at'
     })
     @Field(() => Date)
-    updatedAt: Date;
+    updatedAt?: Date;
 
     @DeleteDateColumn({
         name: 'deleted_at'
     })
     @Field(() => Date, { nullable: true })
-    deletedAt: Date;
+    deletedAt?: Date;
 }

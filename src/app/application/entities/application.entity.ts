@@ -4,7 +4,7 @@ import { Column, Entity } from "typeorm";
 import { IsBoolean, IsNotEmpty, IsOptional } from "class-validator";
 import { Exclude } from 'class-transformer'
 
-@Entity()
+@Entity({ name: 'applications' })
 @ObjectType()
 @ArgsType()
 export class Application extends ABaseEntity {
@@ -38,8 +38,8 @@ export class Application extends ABaseEntity {
     @IsOptional()
     url?: string;
 
-    @Column({ nullable: true })
+    @Column({ name: 'api_key', nullable: true })
     @Field(() => String, { nullable: true })
     @Exclude()
-    api_key?: string;
+    apiKey?: string;
 }

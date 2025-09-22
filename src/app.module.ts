@@ -11,6 +11,10 @@ import { RoleModule } from './app/role/role.module';
 import databaseConfig from './database/config/database.config';
 import redisConfig from './database/config/redis.config';
 import storageConfig from './storage/config/storage.config';
+import { QueueModule } from './queue/queue.module';
+import { MailModule } from './mail/mail.module';
+import queueConfig from './queue/config/queue.config';
+import mailConfig from './mail/config/mail.config';
 
 @Module({
   imports: [
@@ -20,11 +24,14 @@ import storageConfig from './storage/config/storage.config';
       load: [
         databaseConfig,
         redisConfig,
-        storageConfig
+        storageConfig,
+        queueConfig,
+        mailConfig
       ]
     }),
-    PostgreSQLDBModule,
 
+    QueueModule,
+    PostgreSQLDBModule,
     ApplicationModule,
     FileModule,
     UserModule,

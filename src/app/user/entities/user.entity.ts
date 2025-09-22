@@ -1,8 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { ABaseEntity } from 'src/core/classes/base.entity';
+import { ABaseEntity } from '../../../core/classes/base.entity';
 import { Column, Entity } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'users' })
 @ObjectType()
 export class User extends ABaseEntity {
   @Column()
@@ -14,6 +14,12 @@ export class User extends ABaseEntity {
   })
   @Field(() => String, { nullable: true })
   password: string;
+
+  @Column({
+    name: 'role_id',
+  })
+  @Field(() => String)
+  roleId: string;
 
   @Column()
   @Field(() => String)

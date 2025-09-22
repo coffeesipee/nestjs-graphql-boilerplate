@@ -9,6 +9,7 @@ type User {
   deletedAt: DateTime
   email: String!
   password: String
+  roleId: String!
   fullname: String!
   verifiedAt: DateTime
   isActive: Boolean!
@@ -40,7 +41,7 @@ type Application {
   is_active: Boolean
   logo: String
   url: String
-  api_key: String
+  apiKey: String
 }
 
 type ListApplication {
@@ -82,9 +83,9 @@ type Query {
 }
 
 type Mutation {
-  createApplication(code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, api_key: String): Application!
+  createApplication(code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, apiKey: String): Application!
   deleteApplication(id: String!): Boolean!
-  updateApplication(id: String!, code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, api_key: String): Boolean!
+  updateApplication(id: String!, code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, apiKey: String): Boolean!
   createUser(payload: CreateUserDto!): User!
   createRole(role: CreateRoleDto!): Role!
 }
