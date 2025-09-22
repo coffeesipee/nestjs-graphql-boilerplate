@@ -21,6 +21,8 @@ This is production-ready Nest.js GraphQL boilerplate.
 - [ ] Seeder
 - [ ] Multi Tenant Application
 - [x] API Key
+- [ ] Audit Trail
 
 # Documentation
+
 
