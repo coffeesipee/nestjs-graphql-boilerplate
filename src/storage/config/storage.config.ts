@@ -45,6 +45,11 @@ export class StorageConfigValidation {
     @IsOptional()
     @Transform(({ value }) => value === 'true')
     S3_FORCE_PATH_STYLE: boolean
+
+    @ValidateIf((config) => config.STORAGE_TYPE === StorageType.LOCAL)
+    @IsString()
+    @IsNotEmpty()
+    LOCAL_PATH: string
 }
 
 export default registerAs<StorageConfig>('storage', () => {
@@ -61,5 +66,8 @@ export default registerAs<StorageConfig>('storage', () => {
             expiresIn: Number(process.env.S3_EXPIRES_IN),
             forcePathStyle: process.env.S3_FORCE_PATH_STYLE === 'true',
         },
+        local: {
+            path: process.env.LOCAL_PATH,
+        }
     }
 })

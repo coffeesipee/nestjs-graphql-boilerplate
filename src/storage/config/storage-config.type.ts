@@ -11,4 +11,7 @@ export interface StorageConfig {
         expiresIn: number
         forcePathStyle: boolean
     }
+    local: {
+        path: string
+    }
 }

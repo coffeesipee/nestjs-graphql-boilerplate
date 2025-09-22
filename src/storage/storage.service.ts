@@ -3,6 +3,7 @@ import { IStorageConfig } from "./contracts/storage-config.contract";
 import { IStorageImpl } from "./contracts/impl.contract";
 import { S3Service } from "./impl/s3.service";
 import { STORAGE_CONFIG, StorageType } from "./constants";
+import { LocalService } from "./impl/local.service";
 
 @Injectable()
 export class StorageService implements OnModuleInit {
@@ -19,6 +20,13 @@ export class StorageService implements OnModuleInit {
                 }
 
                 return new S3Service(this.config)
+            })(),
+            [StorageType.LOCAL]: (() => {
+                if (!this.config.local) {
+                    throw new Error('Local config is missing')
+                }
+
+                return new LocalService(this.config)
             })()
         }
 
