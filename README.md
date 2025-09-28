@@ -5,18 +5,18 @@ This is production-ready Nest.js GraphQL boilerplate.
 # Core Features
 - [x] Typeorm (PostgreSQL)
 - [x] GraphQL Code First
-- [ ] General Storage Module (S3, Local Disk) 
+- [x] General Storage Module (S3, Local Disk) 
 - [x] Pagination
 - [ ] RBAC
 - [ ] User Management
-- [ ] JWT
+- [x] JWT
 - [ ] Authentication & Authorization
 - [ ] Health Check
-- [ ] Mailer
+- [x] Mailer
 - [ ] i18n
-- [ ] Rest API File Upload
+- [x] Rest API File Upload
 - [ ] Stateful / Stateless Auth
-- [ ] Docker Compose
+- [x] Docker Compose
 - [x] Migration
 - [ ] Seeder
 - [ ] Multi Tenant Application
@@ -24,5 +24,6 @@ This is production-ready Nest.js GraphQL boilerplate.
 - [ ] Audit Trail
 
 # Documentation
+
 
 
