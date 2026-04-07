@@ -1,6 +1,6 @@
 import { registerAs } from "@nestjs/config";
 import { IsString, IsNotEmpty, IsInt } from "class-validator";
-import { validateConfig } from "src/core/utils/validate-config";
+import { validateConfig } from "../../core/utils/validate-config";
 
 export class RedisConfigValidation {
     @IsString()

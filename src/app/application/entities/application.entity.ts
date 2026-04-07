@@ -1,5 +1,5 @@
 import { ArgsType, Field, ObjectType } from "@nestjs/graphql";
-import { ABaseEntity } from "../../../core/classes/base.entity";
+import { WithCreatedByAndUpdatedBy } from "../../../core/classes/base.entity";
 import { Column, Entity } from "typeorm";
 import { IsBoolean, IsNotEmpty, IsOptional } from "class-validator";
 import { Exclude } from 'class-transformer'
@@ -7,7 +7,7 @@ import { Exclude } from 'class-transformer'
 @Entity({ name: 'applications' })
 @ObjectType()
 @ArgsType()
-export class Application extends ABaseEntity {
+export class Application extends WithCreatedByAndUpdatedBy {
     @Column()
     @Field(() => String, { nullable: true })
     code?: string;

@@ -5,10 +5,10 @@ import { DataSource, Repository } from 'typeorm'
 import {
   PaginationParams,
   PaginationResponse,
-} from 'src/core/classes/pagination.class'
-import { normalizePageParams } from 'src/core/utils/pagination'
+} from '../../../core/classes/pagination.class'
+import { normalizePageParams } from '../../../core/utils/pagination'
 import { CreateUserDto } from '../dtos/create-user.dto'
-import { randomString } from 'src/core/utils/strings'
+import { randomString } from '../../../core/utils/strings'
 import { genSaltSync, hashSync } from 'bcrypt'
 import { isEmpty } from 'class-validator'
 import { ListUser } from '../dtos/list-user.dto'
@@ -34,7 +34,6 @@ export class UserService {
     }
 
     const payload = this.userRepository.create(user)
-    console.log(payload)
 
     if (user.autoVerified) {
       payload.verifiedAt = new Date()
@@ -43,10 +42,11 @@ export class UserService {
     let userPassword = user.password
     if (isEmpty(user.password)) {
       userPassword = randomString(10)
-      user.password = hashSync(userPassword, genSaltSync(12))
     }
 
-    const created = await this.userRepository.save(payload)
+    userPassword = hashSync(userPassword, genSaltSync(12))
+
+    const created = await this.userRepository.save({ ...user, password: userPassword })
 
     if (!user.password) {
       return {

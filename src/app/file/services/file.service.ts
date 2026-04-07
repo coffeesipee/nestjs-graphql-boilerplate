@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { StorageService } from "src/storage/storage.service";
-import { randomString } from "src/core/utils/strings";
+import { StorageService } from "../../../storage/storage.service";
+import { randomString } from "../../../core/utils/strings";
 
 @Injectable()
 export class FileService {

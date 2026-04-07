@@ -1,6 +1,6 @@
 import { registerAs } from "@nestjs/config";
 import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
-import { validateConfig } from "src/core/utils/validate-config";
+import { validateConfig } from "../../core/utils/validate-config";
 import { DatabaseConfig } from "./database-config.type";
 
 export class DatabaseConfigValidation {

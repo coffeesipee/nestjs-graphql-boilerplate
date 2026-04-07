@@ -28,6 +28,7 @@ const dataSource = new DataSource({
         : undefined,
     entities: [join(process.cwd(), 'src/**/*.entity{.ts,.js}')],
     migrations: [join(process.cwd(), 'src/database/migrations/*{.ts,.js}')],
+    migrationsTransactionMode: 'none',
     synchronize: false,
     logging: !isProd,
 })

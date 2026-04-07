@@ -1,5 +1,5 @@
 import { registerAs } from "@nestjs/config";
-import { validateConfig } from "src/core/utils/validate-config";
+import { validateConfig } from "../../core/utils/validate-config";
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateIf } from "class-validator";
 import { StorageType } from "../constants";
 import { StorageConfig } from "./storage-config.type";

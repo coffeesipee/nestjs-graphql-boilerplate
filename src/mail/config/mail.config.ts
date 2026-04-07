@@ -1,7 +1,7 @@
 import { registerAs } from "@nestjs/config";
 import { IsNotEmpty, IsString } from "class-validator";
 import { MailConfig } from "./mail-config.type";
-import { validateConfig } from "src/core/utils/validate-config";
+import { validateConfig } from "../../core/utils/validate-config";
 
 export class MailConfigValidation {
     @IsString()

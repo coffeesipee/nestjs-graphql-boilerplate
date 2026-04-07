@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @ObjectType()
 export class ABaseEntity {
@@ -24,4 +24,19 @@ export class ABaseEntity {
     })
     @Field(() => Date, { nullable: true })
     deletedAt?: Date;
+}
+
+@ObjectType()
+export class WithCreatedByAndUpdatedBy extends ABaseEntity {
+    @Column({
+        name: 'created_by'
+    })
+    @Field(() => ID, { nullable: true })
+    createdBy: string;
+
+    @Column({
+        name: 'updated_by'
+    })
+    @Field(() => ID, { nullable: true })
+    updatedBy: string;
 }

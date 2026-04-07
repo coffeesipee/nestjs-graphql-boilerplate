@@ -2,16 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Role {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime
-  email: String!
-  password: String
-  roleId: String!
-  fullname: String!
-  verifiedAt: DateTime
+  createdBy: ID
+  updatedBy: ID
+  name: String!
+  code: String
   isActive: Boolean!
 }
 
@@ -19,6 +18,21 @@ type User {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type User {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  createdBy: ID
+  updatedBy: ID
+  email: String!
+  password: String
+  roleId: String!
+  fullname: String!
+  verifiedAt: DateTime
+  isActive: Boolean!
+}
 
 type ListUser {
   total: Int!
@@ -35,6 +49,8 @@ type Application {
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime
+  createdBy: ID
+  updatedBy: ID
   code: String
   name: String!
   description: String
@@ -54,16 +70,6 @@ type ListApplication {
   data: [Application!]!
 }
 
-type Role {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  deletedAt: DateTime
-  name: String!
-  code: String
-  isActive: Boolean!
-}
-
 type ListRole {
   total: Int!
   hasNextPage: Boolean!
@@ -72,6 +78,21 @@ type ListRole {
   limit: Int!
   totalPages: Int!
   data: [Role!]!
+}
+
+type OkObjectType {
+  ok: Boolean!
+}
+
+type AuthToken {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type Login {
+  authToken: AuthToken!
+  fullname: String!
+  role: String!
 }
 
 type Query {
@@ -83,11 +104,15 @@ type Query {
 }
 
 type Mutation {
+  login(grantType: String!, email: String, password: String, refreshToken: String): Login!
+  me: User!
   createApplication(code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, apiKey: String): Application!
   deleteApplication(id: String!): Boolean!
   updateApplication(id: String!, code: String, name: String!, description: String, is_active: Boolean, logo: String, url: String, apiKey: String): Boolean!
   createUser(payload: CreateUserDto!): User!
+  deleteUser(id: String!): Boolean!
   createRole(role: CreateRoleDto!): Role!
+  deleteRole(id: String!): OkObjectType!
 }
 
 input CreateUserDto {

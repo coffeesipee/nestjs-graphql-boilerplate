@@ -3,7 +3,7 @@ import { UserService } from '../services/user.service'
 import { User } from '../entities/user.entity'
 import { CreateUserDto } from '../dtos/create-user.dto'
 import { ListUser } from '../dtos/list-user.dto'
-import { PaginationParams } from 'src/core/classes/pagination.class'
+import { PaginationParams } from '../../../core/classes/pagination.class'
 
 @Resolver()
 export class UserResolver {
@@ -24,4 +24,9 @@ export class UserResolver {
     return this.userService.findAll(pagination)
   }
 
+  @Mutation(() => Boolean)
+  async deleteUser(@Args('id', { type: () => String }) id: string) {
+    await this.userService.delete(id)
+    return true
+  }
 }

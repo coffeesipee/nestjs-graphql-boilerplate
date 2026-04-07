@@ -2,7 +2,7 @@ import { registerAs } from "@nestjs/config";
 import { QueueConfig } from "./queue-config.type";
 import { IsBoolean, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 import { Transform } from "class-transformer";
-import { validateConfig } from "src/core/utils/validate-config";
+import { validateConfig } from "../../core/utils/validate-config";
 
 export class QueueConfigValidation {
     @IsBoolean()

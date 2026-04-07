@@ -1,10 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { ABaseEntity } from '../../../core/classes/base.entity';
-import { Column, Entity } from 'typeorm';
+import { WithCreatedByAndUpdatedBy } from '../../../core/classes/base.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Role } from '../../role/entities/role.entity';
 
 @Entity({ name: 'users' })
 @ObjectType()
-export class User extends ABaseEntity {
+export class User extends WithCreatedByAndUpdatedBy {
   @Column()
   @Field(() => String)
   email: string;
@@ -36,4 +37,10 @@ export class User extends ABaseEntity {
   })
   @Field(() => Boolean)
   isActive: boolean;
+
+  @ManyToOne(() => Role)
+  @JoinColumn({
+    name: 'role_id',
+  })
+  role: Role
 }

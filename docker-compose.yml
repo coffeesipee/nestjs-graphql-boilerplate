@@ -29,7 +29,7 @@ services:
       - app-network
 
   postgres:
-    image: postgres:15 
+    image: debezium/postgres:15 
     restart: always
     environment:
       - POSTGRES_USER=${DB_USERNAME}
@@ -37,10 +37,25 @@ services:
       - POSTGRES_DB=${DB_DATABASE_NAME}
     ports:
       - "${DB_PORT}:5432"
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+      - "-c"
+      - "max_wal_senders=10"
+      - "-c"
+      - "max_replication_slots=10"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # - ./postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
     
 networks:
   app-network:

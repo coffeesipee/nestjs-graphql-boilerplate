@@ -15,14 +15,14 @@ export class StorageService implements OnModuleInit {
     initImpl() {
         const handler = {
             [StorageType.S3]: (() => {
-                if (!this.config.s3) {
+                if (this.config.type === StorageType.S3 && !this.config.s3) {
                     throw new Error('S3 config is missing')
                 }
 
                 return new S3Service(this.config)
             })(),
             [StorageType.LOCAL]: (() => {
-                if (!this.config.local) {
+                if (this.config.type === StorageType.LOCAL && !this.config.local) {
                     throw new Error('Local config is missing')
                 }
 

@@ -1,12 +1,12 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Application } from '../entities/application.entity';
 import { ApplicationService } from '../services/application.service';
-import { PaginationParams } from 'src/core/classes/pagination.class';
+import { PaginationParams } from '../../../core/classes/pagination.class';
 import { ListApplication } from '../dtos/list-application.dto';
 
 @Resolver(() => Application)
 export class ApplicationResolver {
-  constructor(private readonly applicationService: ApplicationService) {}
+  constructor(private readonly applicationService: ApplicationService) { }
 
   @Mutation(() => Application)
   async createApplication(@Args() data: Application) {

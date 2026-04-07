@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Role } from './entities/role.entity';
 import { RoleResolver } from './resolvers/role.resolver';
 import { RoleService } from './services/role.service';
+import { AuditTrailModule } from '../audit-trail/audit-trail.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Role])],
+  imports: [TypeOrmModule.forFeature([Role]), AuditTrailModule],
   providers: [RoleResolver, RoleService],
   exports: [RoleService],
 })
-export class RoleModule {}
+export class RoleModule { }

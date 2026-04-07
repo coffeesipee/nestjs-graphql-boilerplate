@@ -12,9 +12,12 @@ import databaseConfig from './database/config/database.config';
 import redisConfig from './database/config/redis.config';
 import storageConfig from './storage/config/storage.config';
 import { QueueModule } from './queue/queue.module';
-import { MailModule } from './mail/mail.module';
 import queueConfig from './queue/config/queue.config';
 import mailConfig from './mail/config/mail.config';
+import authConfig from './app/auth/config/auth.config';
+import { AuthModule } from './app/auth/auth.module';
+import { CdcModule } from './database/cdc/cdc.module';
+import cdcConfig from './database/cdc/configs/cdc.config';
 
 @Module({
   imports: [
@@ -22,16 +25,20 @@ import mailConfig from './mail/config/mail.config';
       cache: true,
       isGlobal: true,
       load: [
+        authConfig,
+        cdcConfig,
         databaseConfig,
+        mailConfig,
+        queueConfig,
         redisConfig,
         storageConfig,
-        queueConfig,
-        mailConfig
       ]
     }),
 
     QueueModule,
     PostgreSQLDBModule,
+    CdcModule,
+    AuthModule,
     ApplicationModule,
     FileModule,
     UserModule,
@@ -42,6 +49,11 @@ import mailConfig from './mail/config/mail.config';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: true,
       path: '/graphql',
+      context: ({ req, res }) => {
+        return {
+          req, res
+        }
+      },
     }),
   ],
 })

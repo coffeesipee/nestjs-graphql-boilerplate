@@ -7,4 +7,7 @@ export class CreateRoleDto {
 
   @Field(() => Boolean, { nullable: true, defaultValue: true })
   isActive: boolean;
+
+  createdBy: string;
+  updatedBy: string;
 }

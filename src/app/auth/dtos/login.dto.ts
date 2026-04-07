@@ -1,24 +1,32 @@
 import { ArgsType, Field, ObjectType } from '@nestjs/graphql'
 import { GrantType } from '../consts/grant-type.const'
-import { IsEmail, IsIn, IsNotEmpty, IsString } from 'class-validator'
+import { IsEmail, IsIn, IsNotEmpty, IsString, ValidateIf } from 'class-validator'
 
 @ArgsType()
 export class LoginDto {
-  @Field(() => GrantType)
+  @Field(() => String)
   @IsString()
   @IsIn(Object.values(GrantType))
   @IsNotEmpty()
-  grantType: string
+  grantType: GrantType
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
+  @ValidateIf((dto) => dto.grantType === GrantType.PASSWORD)
   @IsEmail()
   @IsNotEmpty()
   email: string
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
+  @ValidateIf((dto) => dto.grantType === GrantType.PASSWORD)
   @IsNotEmpty()
   @IsString()
   password: string
+
+  @Field(() => String, { nullable: true })
+  @ValidateIf((dto) => dto.grantType === GrantType.REFRESH_TOKEN)
+  @IsString()
+  @IsNotEmpty()
+  refreshToken: string
 }
 
 @ObjectType()
@@ -33,7 +41,7 @@ export class AuthToken {
 @ObjectType()
 export class Login {
   @Field(() => AuthToken)
-  authToken: string
+  authToken: AuthToken
 
   @Field(() => String)
   fullname: string

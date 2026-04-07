@@ -1,0 +1,3 @@
+export enum ReqMetadata {
+    AUDIT_TRAIL_RESOURCE_NAME = 'AUDIT_TRAIL_RESOURCE_NAME'
+}

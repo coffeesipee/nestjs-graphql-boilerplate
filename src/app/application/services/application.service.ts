@@ -5,8 +5,8 @@ import { Repository } from "typeorm";
 import { PaginationParams, PaginationResponse } from "../../../core/classes/pagination.class";
 import { ListApplication } from "../dtos/list-application.dto";
 import { ApiKeyService } from "./api_key.service";
-import { toSlug } from "src/core/utils/strings";
-import { normalizePageParams } from "src/core/utils/pagination";
+import { toSlug } from "../../../core/utils/strings";
+import { normalizePageParams } from "../../../core/utils/pagination";
 
 @Injectable()
 export class ApplicationService {

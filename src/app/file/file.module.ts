@@ -3,7 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { StorageModule } from "../../storage/storage.module";
 import { FileService } from "./services/file.service";
 import { FileController } from "./controllers/file.controller";
-import { StorageType } from "src/storage/constants";
+import { StorageType } from '../../storage/constants'
 
 @Module({
     imports: [

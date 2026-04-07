@@ -3,7 +3,7 @@ import { UserResolver } from './resolvers/user.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { UserService } from './services/user.service';
-import { MailModule } from 'src/mail/mail.module';
+import { MailModule } from '../../mail/mail.module';
 import { BullModule } from '@nestjs/bullmq';
 import { UserConstant } from './user.constant';
 import { WelcomePasswordJob } from './jobs/welcome-password.job';
