@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { UserResolver } from './resolvers/user.resolver';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
-import { UserService } from './services/user.service';
-import { MailModule } from 'src/mail/mail.module';
-import { BullModule } from '@nestjs/bullmq';
-import { UserConstant } from './user.constant';
-import { WelcomePasswordJob } from './jobs/welcome-password.job';
-import { EmailVerificationJob } from './jobs/email-verification.job';
+import { Module } from '@nestjs/common'
+import { UserResolver } from './resolvers/user.resolver'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { User } from './entities/user.entity'
+import { UserService } from './services/user.service'
+import { MailModule } from 'src/mail/mail.module'
+import { BullModule } from '@nestjs/bullmq'
+import { UserConstant } from './user.constant'
+import { WelcomePasswordJob } from './jobs/welcome-password.job'
+import { EmailVerificationJob } from './jobs/email-verification.job'
 
 @Module({
   imports: [
@@ -20,8 +20,12 @@ import { EmailVerificationJob } from './jobs/email-verification.job';
     }),
     MailModule,
   ],
-  providers: [UserResolver, UserService, WelcomePasswordJob, EmailVerificationJob],
+  providers: [
+    UserResolver,
+    UserService,
+    WelcomePasswordJob,
+    EmailVerificationJob,
+  ],
   exports: [UserService],
 })
-export class UserModule { }
-
+export class UserModule {}

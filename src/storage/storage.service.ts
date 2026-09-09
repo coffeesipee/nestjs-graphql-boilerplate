@@ -1,64 +1,64 @@
-import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
-import { IStorageConfig } from "./contracts/storage-config.contract";
-import { IStorageImpl } from "./contracts/impl.contract";
-import { S3Service } from "./impl/s3.service";
-import { STORAGE_CONFIG, StorageType } from "./constants";
-import { LocalService } from "./impl/local.service";
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
+import { IStorageConfig } from './contracts/storage-config.contract'
+import { IStorageImpl } from './contracts/impl.contract'
+import { S3Service } from './impl/s3.service'
+import { STORAGE_CONFIG, StorageType } from './constants'
+import { LocalService } from './impl/local.service'
 
 @Injectable()
 export class StorageService implements OnModuleInit {
-    constructor(@Inject(STORAGE_CONFIG) private readonly config: IStorageConfig) {
+  constructor(
+    @Inject(STORAGE_CONFIG) private readonly config: IStorageConfig,
+  ) {}
 
-    }
+  private impl: IStorageImpl
+  initImpl() {
+    console.log(this.config.type)
+    const handler = {
+      //   [StorageType.S3]: (() => {
+      //     if (!this.config.s3) {
+      //       throw new Error('S3 config is missing')
+      //     }
 
-    private impl: IStorageImpl
-    initImpl() {
-        const handler = {
-            [StorageType.S3]: (() => {
-                if (!this.config.s3) {
-                    throw new Error('S3 config is missing')
-                }
-
-                return new S3Service(this.config)
-            })(),
-            [StorageType.LOCAL]: (() => {
-                if (!this.config.local) {
-                    throw new Error('Local config is missing')
-                }
-
-                return new LocalService(this.config)
-            })()
+      //     return new S3Service(this.config)
+      //   })(),
+      [StorageType.LOCAL]: (() => {
+        if (!this.config.local) {
+          throw new Error('Local config is missing')
         }
 
-        if (!handler[this.config.type]) {
-            throw new Error(`Invalid storage type: ${this.config.type}`)
-        }
-
-        this.impl = handler[this.config.type]
+        return new LocalService(this.config)
+      })(),
     }
 
-    onModuleInit() {
-        this.initImpl()
+    if (!handler[this.config.type]) {
+      throw new Error(`Invalid storage type: ${this.config.type}`)
     }
 
-    async uploadFile(path: string, file: Express.Multer.File): Promise<string> {
-        return this.impl.putFile(path, file)
-    }
+    this.impl = handler[this.config.type]
+  }
 
-    async deleteFile(path: string): Promise<void> {
-        return this.impl.deleteFile(path)
-    }
+  onModuleInit() {
+    this.initImpl()
+  }
 
-    async getPresignedUrl(path: string): Promise<string> {
-        return this.impl.getPresignedUrl(path)
-    }
+  async uploadFile(path: string, file: Express.Multer.File): Promise<string> {
+    return this.impl.putFile(path, file)
+  }
 
-    async getFiles(prefix?: string): Promise<string[]> {
-        return this.impl.getFiles(prefix)
-    }
+  async deleteFile(path: string): Promise<void> {
+    return this.impl.deleteFile(path)
+  }
 
-    async getDirectories(prefix?: string): Promise<string[]> {
-        return this.impl.getDirectories(prefix)
-    }
+  async getPresignedUrl(path: string): Promise<string> {
+    return this.impl.getPresignedUrl(path)
+  }
+
+  async getFiles(prefix?: string): Promise<string[]> {
+    return this.impl.getFiles(prefix)
+  }
+
+  async getDirectories(prefix?: string): Promise<string[]> {
+    return this.impl.getDirectories(prefix)
+  }
 }
-
